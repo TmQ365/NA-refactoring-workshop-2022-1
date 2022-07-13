@@ -71,6 +71,7 @@ bool checkSegments(Segment& s){
                 
             }
         }
+        return false;
 }
 
 bool checkPos(Segment& s){
@@ -79,6 +80,7 @@ bool checkPos(Segment& s){
                        s.y >= m_mapDimension.second) {
                 m_scorePort.send(std::make_unique<EventT<LooseInd>>());
                 return true;
+                       }
 }
 
 void Controller::receive(std::unique_ptr<Event> e)
@@ -137,7 +139,7 @@ void Controller::receive(std::unique_ptr<Event> e)
                     m_segments.end(),
                     [](auto const& segment){ return not (segment.ttl > 0); }),
                 m_segments.end());
-        }
+        
     } catch (std::bad_cast&) {
         try {
             auto direction = dynamic_cast<EventT<DirectionInd> const&>(*e)->direction;
